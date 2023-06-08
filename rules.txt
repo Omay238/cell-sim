@@ -1,0 +1,13 @@
+123
+456
+789
+
+special: 0
+
+starts at 5
+
+0 removes
+
+random from each step
+
+seperate steps with >
