@@ -1,5 +1,9 @@
 import pygame
 
+import WorldManager
+import CellManager
+import Cell
+
 
 def main():
     print("Running Cell Sim v2.0.0")
