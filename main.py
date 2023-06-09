@@ -1,62 +1,81 @@
-import Cell
-import CellManager
-import WorldManager
+import pygame
 
-import time
-
-from pynput import keyboard
-
-keys = {"w": False, "a": False, "d": False, "s": False}
-
-
-def on_press(key):
-    try:
-        keys[key.char] = True
-    except AttributeError:
-        print("", end="")
-
-
-def on_release(key):
-    keys[key.char] = False
-    if key == keyboard.Key.esc:
-        # Stop listener
-        return False
-
-
-# ...or, in a non-blocking fashion:
-listener = keyboard.Listener(
-    on_press=on_press,
-    on_release=on_release)
-listener.start()
-
-world = WorldManager.WorldManager(25, 25)
-
-cells = {
-    "e": Cell.Cell("8>79>5"),
-    "w": Cell.Cell("8>79>46>5"),
-    "f": Cell.Cell("2>13>5"),
-    "a": Cell.Cell("2>13>46>5"),
-    "l": Cell.Cell("5")
-}
-
-manager = CellManager.CellManager(world.board, cells)
+from WorldManager import WorldManager
 
 
 def main():
-    print("Running Physics Sim 1.0.0")
-    frames = 0
+    print("Running Cell Sim v1.3.1")
+
+    cells = 25
+    cell_size = 25
+
+    pygame.init()
+    screen = pygame.display.set_mode((cells * cell_size, cells * cell_size))
+    clock = pygame.time.Clock()
+
+    world_manager = WorldManager(cells, cells, {
+        "e": {
+            "color": "brown",
+            "name": "Earth",
+            "rule": "8>79",
+            "states": {
+
+            }
+        },
+        "w": {
+            "color": "blue",
+            "name": "Water",
+            "rule": "8>79>46",
+            "states": {
+                "7": "8>7>4/",
+                "4": "8>7>4/",
+                "9": "8>9>6/",
+                "6": "8>9>6/",
+                ".>f": "a"
+            }
+        },
+        "f": {
+            "color": "orange",
+            "name": "Fire",
+            "rule": "2>13",
+            "states": {
+
+            }
+        },
+        "a": {
+            "color": "lightblue",
+            "name": "Air",
+            "rule": "2>13>46",
+            "states": {
+
+            }
+        },
+        # "l": {
+        #     "color": "gray",
+        #     "name": "Wall",
+        #     "rule": "5"
+        # }
+    }, 0.1)
+
     while True:
-        world.render(frames)
-        frames = frames + 1
-        if keys["w"] and world.get_pos()[1] > 0:
-            world.set_pos(world.get_pos()[0], world.get_pos()[1] - 1)
-        elif keys["a"] and world.get_pos()[0] > 0:
-            world.set_pos(world.get_pos()[0] - 1, world.get_pos()[1])
-        elif keys["s"] and world.get_pos()[1] < 24:
-            world.set_pos(world.get_pos()[0], world.get_pos()[1] + 1)
-        elif keys["d"] and world.get_pos()[0] < 24:
-            world.set_pos(world.get_pos()[0] + 1, world.get_pos()[1])
-        time.sleep(1 / 60)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+
+        screen.fill("black")
+
+        # render
+        world_manager.render(screen, pygame, cell_size)
+        # end render
+
+        # logic
+        world_manager.update()
+        # end logic
+
+        pygame.display.flip()
+
+        clock.tick(1)
 
 
 if __name__ == "__main__":
