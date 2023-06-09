@@ -12,7 +12,7 @@ def main():
 
     pygame.init()
     screen = pygame.display.set_mode((cells * cell_size, cells * cell_size + cell_size))
-    pygame.display.set_caption("Cell Sim v1.4.0")
+    pygame.display.set_caption("Cell Sim v1.5.1")
     icon = pygame.image.load("./icon.png")
     pygame.display.set_icon(icon)
     clock = pygame.time.Clock()
