@@ -3,8 +3,9 @@
           "color": "brown",
           "name": "Earth",
           "rule": "8>79",
-          "states": {
-              "w>.": "5ll"
+          "states": {},
+          "overrides": {
+            "w": "swap"
           }
       },
       "w": {

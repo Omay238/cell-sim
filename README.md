@@ -15,7 +15,7 @@ To create a cell, it is quite easy. To start, choose the features from the first
 The cell starts at `5`, and goes to whichever number the step dictates relative to it. It is recommended to only use the number 5 as a dampener for other possibilities, as it will have a negative effect on the performance.  
 Here's an example rule, for water: `8>79>46`. The arrows separate steps, where the first step is in the first segment, and the second in the second segment. For each step, a number is chosen randomly, and all options will be tried in that step before the program goes to the next step.
 ### Step 2
-States are added in the following format: `"previous": "rule"`, where "previous" is whatever the cell previously did, and "rule" is the rule for when it is in this state. An important feature in the "previous" section is that if you do `.>something`, where something is another cell type, it will detect if it tried to move to some cell. An important feature in the "rule" section is the `/` character, which will reset the cell to its default state.
+States are added in the following format: `"previous": "rule"`, where "previous" is whatever the cell previously did, and "rule" is the rule for when it is in this state. An important feature in the "previous" section is that if you do `.>something` or `something>.`, where something is another cell type, it will detect if it tried to move to some cell. An important feature in the "rule" section is the `/` character, which will reset the cell to its default state.
 Here is the example states section for water: 
 ```json
 "states": {
@@ -27,6 +27,14 @@ Here is the example states section for water:
 }
 ```
 ### Step 3
+Overrides are additional features that didn't fit into other categories. They were added in v1.4.0, and there are 3 different types: `"destroy"`, `"swap"`, and `"push"`. Destroy removes the cell that the current cell is going into, swap switches the current cell and the other cell, and push first tries to push the cell in the same direction as the current cell, but if it can't, it switches to swap.  
+Overrides are on a cell by cell basis, so the overrides section is another dict. Below is the overrides for the earth cell, meaning that water is replaced with it.
+```json
+"overrides": {
+    "w": "swap"
+}
+```
+### Step 4
 After this, your cell is mostly done. You just have to format it. For example, here is the water cell, in its entirety:
 ```json
 "w": {
@@ -39,7 +47,8 @@ After this, your cell is mostly done. You just have to format it. For example, h
         "9": "8>9>6/",
         "6": "8>9>6/",
         "f>.": "a"
-    }
+    },
+    "overrides": {}
 }
 ```
 #### Breakdown
@@ -49,4 +58,4 @@ The item "name" is unused as of now, but is recommended to have for development 
 The item "rule" is the rule, from stage 1 of the cell creation.  
 The item "states" is the dictionary of states, from part 2.  
 #### Addition
-To add your cell to the game, go to line 12 of the source code (`world_manager = WorldManager(25, 25, {`) and add your cell to the dictionary. Your cell will now be added.
+To add your cell to the game, add it to `cells.json`. Your cell will now be added to the game.

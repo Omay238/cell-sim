@@ -87,6 +87,19 @@ class WorldManager:
                             else:
                                 self.board[x][y]["prev"].append(f".>{self.board[ex][ey]['type']}")
                                 self.board[ex][ey]["prev"].append(f"{self.board[x][y]['type']}>.")
+                                overrides = self.types[idx["type"]]["overrides"]
+                                goal_type = self.board[ex][ey]["type"]
+                                if goal_type in overrides.keys():
+                                    if overrides[goal_type] == "swap":
+                                        self_copy = self.board[x][y]
+                                        self.board[x][y] = self.board[ex][ey]
+                                        self.board[ex][ey] = self_copy
+                                    elif overrides[goal_type] == "remove":
+                                        self.board[ex][ey] = self.board[x][y]
+                                    elif overrides[goal_type] == "push":
+                                        self_copy = self.board[x][y]
+                                        self.board[x][y] = self.board[ex][ey]
+                                        self.board[ex][ey] = self_copy
                             return True
 
             return False

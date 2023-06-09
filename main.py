@@ -5,7 +5,7 @@ from WorldManager import WorldManager
 
 
 def main():
-    print("Running Cell Sim v1.3.2")
+    print("Running Cell Sim v1.4.0")
 
     cells = 25
     cell_size = 25
@@ -15,7 +15,7 @@ def main():
     clock = pygame.time.Clock()
 
     cell_read = {}
-    with open("./logic.json") as cell_list:
+    with open("./test.json") as cell_list:
         cell_read = json.load(cell_list)
 
     world_manager = WorldManager(cells, cells, cell_read, 0.1)
