@@ -73,29 +73,26 @@ class WorldManager:
                         if j in self.types.keys():
                             self.board[x][y]["type"] = j
                             self.board[x][y]["prev"].append(j)
-                        return True
+                            return True
                     if gx != 0 or gy != 0:
                         ex = x + gx
                         ey = y + gy
                         cx = (True if ex >= 0 else False) if ex < self.width else False
                         cy = (True if ey >= 0 else False) if ey < self.height else False
-                        if cx == True and cy == True:
+                        if cx and cy:
                             if self.board[ex][ey] == 0:
                                 self.board[x][y]["prev"].append(move)
                                 self.board[ex][ey] = self.board[x][y]
                                 self.board[x][y] = 0
-                                return True
                             else:
                                 self.board[x][y]["prev"].append(f".>{self.board[ex][ey]['type']}")
                                 self.board[ex][ey]["prev"].append(f"{self.board[x][y]['type']}>.")
+                            return True
+
             return False
 
     def update(self):
         failed = []
         for i in range(self.height):
             for j in range(self.width):
-                success = self.update_cell(i, j)
-                if not success:
-                    failed.append((i, j))
-        for k in failed:
-            self.update_cell(k[0], k[1])
+                self.update_cell(i, j)

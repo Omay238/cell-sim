@@ -1,10 +1,11 @@
 import pygame
+import json
 
 from WorldManager import WorldManager
 
 
 def main():
-    print("Running Cell Sim v1.3.1")
+    print("Running Cell Sim v1.3.2")
 
     cells = 25
     cell_size = 25
@@ -13,54 +14,11 @@ def main():
     screen = pygame.display.set_mode((cells * cell_size, cells * cell_size))
     clock = pygame.time.Clock()
 
-    world_manager = WorldManager(cells, cells, {
-        "e": {
-            "color": "brown",
-            "name": "Earth",
-            "rule": "8>79",
-            "states": {
-                "w>.": "5ll"
-            }
-        },
-        "w": {
-            "color": "blue",
-            "name": "Water",
-            "rule": "8>79>46",
-            "states": {
-                "7": "8>7>4/",
-                "4": "8>7>4/",
-                "9": "8>9>6/",
-                "6": "8>9>6/",
-                ".>f": "a"
-            }
-        },
-        "f": {
-            "color": "orange",
-            "name": "Fire",
-            "rule": "2>13",
-            "states": {}
-        },
-        "a": {
-            "color": "lightblue",
-            "name": "Air",
-            "rule": "2>13>46",
-            "states": {
-                "1": "2>1>4/",
-                "4": "2>1>4/",
-                "3": "2>3>6/",
-                "6": "2>3>6/",
-                "w>.": "5ww",
-                "f>.": "5ww",
-                ".>f": "5ww"
-            }
-        },
-        "l": {
-            "color": "gray",
-            "name": "Wall",
-            "rule": "5",
-            "states": {}
-        }
-    }, 0.1)
+    cell_read = {}
+    with open("./logic.json") as cell_list:
+        cell_read = json.load(cell_list)
+
+    world_manager = WorldManager(cells, cells, cell_read, 0.1)
 
     while True:
         for event in pygame.event.get():

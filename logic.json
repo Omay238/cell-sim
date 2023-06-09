@@ -1,0 +1,23 @@
+{
+  "i": {
+    "color": "white",
+    "name": "Blinker On",
+    "rule": "o",
+    "states": {}
+  },
+  "o": {
+    "color": "gray",
+    "name": "Blinker Off",
+    "rule": "i",
+    "states": {}
+  },
+  "l": {
+    "color": "blue",
+    "name": "move",
+    "rule": "4",
+    "states": {
+      ".>i": "6",
+      "6": "6"
+    }
+  }
+}
