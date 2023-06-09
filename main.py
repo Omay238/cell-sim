@@ -1,15 +1,61 @@
 import pygame
 
-import WorldManager
-import CellManager
-import Cell
+from WorldManager import WorldManager
 
 
 def main():
-    print("Running Cell Sim v2.0.0")
+    print("Running Cell Sim v1.3.1")
+
+    cells = 25
+    cell_size = 25
+
     pygame.init()
-    screen = pygame.display.set_mode((720, 720))
+    screen = pygame.display.set_mode((cells * cell_size, cells * cell_size))
     clock = pygame.time.Clock()
+
+    world_manager = WorldManager(cells, cells, {
+        "e": {
+            "color": "brown",
+            "name": "Earth",
+            "rule": "8>79",
+            "states": {
+
+            }
+        },
+        "w": {
+            "color": "blue",
+            "name": "Water",
+            "rule": "8>79>46",
+            "states": {
+                "7": "8>7>4/",
+                "4": "8>7>4/",
+                "9": "8>9>6/",
+                "6": "8>9>6/",
+                ".>f": "a"
+            }
+        },
+        "f": {
+            "color": "orange",
+            "name": "Fire",
+            "rule": "2>13",
+            "states": {
+
+            }
+        },
+        "a": {
+            "color": "lightblue",
+            "name": "Air",
+            "rule": "2>13>46",
+            "states": {
+
+            }
+        },
+        # "l": {
+        #     "color": "gray",
+        #     "name": "Wall",
+        #     "rule": "5"
+        # }
+    }, 0.1)
 
     while True:
         for event in pygame.event.get():
@@ -20,16 +66,16 @@ def main():
         screen.fill("black")
 
         # render
-
+        world_manager.render(screen, pygame, cell_size)
         # end render
 
         # logic
-
+        world_manager.update()
         # end logic
 
         pygame.display.flip()
 
-        clock.tick(60)
+        clock.tick(1)
 
 
 if __name__ == "__main__":
