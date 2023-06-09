@@ -11,21 +11,26 @@ class WorldManager:
             board.append([])
             for j in range(width):
                 if random.randint(0, 1 / fill_rate) == 1:
-                    board[i].append({"type": random.choice(list(types)), "prev": []})
+                        board[i].append({"type": random.choice(list(types)), "prev": [], "moved_last": False})
                 else:
                     board[i].append(0)
         self.board = board
 
-    def render(self, screen, pygame, size):
+    def render(self, screen, pygame, size, highlight):
         for i in range(self.height):
             for j in range(self.width):
                 if self.board[j][i] != 0:
                     pygame.draw.rect(screen, self.types[self.board[j][i]["type"]]["color"],
                                      pygame.Rect(j * size, i * size, size, size))
+        for i in range(len(self.types.keys())):
+            pygame.draw.rect(screen, self.types[list(self.types.keys())[i]]["color"],
+                             pygame.Rect(i * size, self.height * size, size, size))
+        pygame.draw.rect(screen, "white", pygame.Rect(highlight * size, self.height * size, size, size),
+                         int(size * 0.2))
 
     def update_cell(self, x, y):
         idx = self.board[x][y]
-        if idx != 0:
+        if idx != 0 and not idx["moved_last"]:
             idx["prev"] = list(set(idx["prev"]) & set(self.types[idx["type"]]["states"].keys()))
             random.shuffle(idx["prev"])
             if len(idx["prev"]) == 0:
@@ -67,12 +72,12 @@ class WorldManager:
                         return True
                     elif j == "/":
                         self.board[x][y]["prev"] = []
-                        return True
+                        return x, y
                     else:
                         if j in self.types.keys():
                             self.board[x][y]["type"] = j
                             self.board[x][y]["prev"].append(j)
-                            return True
+                            return x, y
                     if gx != 0 or gy != 0:
                         ex = x + gx
                         ey = y + gy
@@ -99,8 +104,7 @@ class WorldManager:
                                         self_copy = self.board[x][y]
                                         self.board[x][y] = self.board[ex][ey]
                                         self.board[ex][ey] = self_copy
-                            return True
-
+                            return ex, ey
             return False
 
     def update(self):
@@ -109,3 +113,15 @@ class WorldManager:
             for j in range(self.width):
                 success = self.update_cell(i, j)
                 failed.append((i, j)) if not success else print("", end="")
+                if success:
+                    self.board[success[0]][success[1]]["moved_last"] = True
+        for i in self.board:
+            for j in i:
+                if j != 0:
+                    j["moved_last"] = False
+
+    def set(self, x, y, cell_type):
+        if cell_type == 0:
+            self.board[y][x] = 0
+        else:
+            self.board[y][x] = {"type": cell_type, "prev": [], "moved_last": False}
