@@ -68,24 +68,26 @@ class WorldManager:
                         return True
                     elif j == "/":
                         self.board[x][y]["prev"] = []
+                        return True
                     else:
                         if j in self.types.keys():
                             self.board[x][y]["type"] = j
                             self.board[x][y]["prev"].append(j)
-                            return True
+                        return True
                     if gx != 0 or gy != 0:
                         ex = x + gx
                         ey = y + gy
-                        ex = (ex if ex >= 0 else 0) if ex < self.width else self.width - 1
-                        ey = (ey if ey >= 0 else 0) if ey < self.height else self.height - 1
-                        if self.board[ex][ey] == 0:
-                            self.board[x][y]["prev"].append(move)
-                            self.board[ex][ey] = self.board[x][y]
-                            self.board[x][y] = 0
-                            return True
-                        else:
-                            self.board[x][y]["prev"].append(f".>{self.board[ex][ey]['type']}")
-                            self.board[ex][ey]["prev"].append(f"{self.board[x][y]['type']}>.")
+                        cx = (True if ex >= 0 else False) if ex < self.width else False
+                        cy = (True if ey >= 0 else False) if ey < self.height else False
+                        if cx == True and cy == True:
+                            if self.board[ex][ey] == 0:
+                                self.board[x][y]["prev"].append(move)
+                                self.board[ex][ey] = self.board[x][y]
+                                self.board[x][y] = 0
+                                return True
+                            else:
+                                self.board[x][y]["prev"].append(f".>{self.board[ex][ey]['type']}")
+                                self.board[ex][ey]["prev"].append(f"{self.board[x][y]['type']}>.")
             return False
 
     def update(self):

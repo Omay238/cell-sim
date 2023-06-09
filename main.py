@@ -80,7 +80,7 @@ def main():
 
         pygame.display.flip()
 
-        clock.tick(60)
+        clock.tick(1)
 
 
 if __name__ == "__main__":
