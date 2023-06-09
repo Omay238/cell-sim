@@ -33,7 +33,6 @@ class WorldManager:
             else:
                 cell_rules = self.types[idx["type"]]["states"][idx["prev"][0]].split(">")
             cell_rules = [''.join(random.sample(string, len(string))) for string in cell_rules]
-            move = ""
             for i in cell_rules:
                 for j in i:
                     gx = 0
@@ -108,4 +107,5 @@ class WorldManager:
         failed = []
         for i in range(self.height):
             for j in range(self.width):
-                self.update_cell(i, j)
+                success = self.update_cell(i, j)
+                failed.append((i, j)) if not success else print("", end="")
