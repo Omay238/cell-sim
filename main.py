@@ -19,7 +19,7 @@ def main():
             "name": "Earth",
             "rule": "8>79",
             "states": {
-
+                "w>.": "5ll"
             }
         },
         "w": {
@@ -38,23 +38,28 @@ def main():
             "color": "orange",
             "name": "Fire",
             "rule": "2>13",
-            "states": {
-
-            }
+            "states": {}
         },
         "a": {
             "color": "lightblue",
             "name": "Air",
             "rule": "2>13>46",
             "states": {
-
+                "1": "2>1>4/",
+                "4": "2>1>4/",
+                "3": "2>3>6/",
+                "6": "2>3>6/",
+                "w>.": "5ww",
+                "f>.": "5ww",
+                ".>f": "5ww"
             }
         },
-        # "l": {
-        #     "color": "gray",
-        #     "name": "Wall",
-        #     "rule": "5"
-        # }
+        "l": {
+            "color": "gray",
+            "name": "Wall",
+            "rule": "5",
+            "states": {}
+        }
     }, 0.1)
 
     while True:
@@ -75,7 +80,7 @@ def main():
 
         pygame.display.flip()
 
-        clock.tick(1)
+        clock.tick(60)
 
 
 if __name__ == "__main__":
