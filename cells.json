@@ -18,13 +18,15 @@
               "9": "8>9>6/",
               "6": "8>9>6/",
               ".>f": "a"
-          }
+          },
+          "overrides": {}
       },
       "f": {
           "color": "orange",
           "name": "Fire",
           "rule": "2>13",
-          "states": {}
+          "states": {},
+          "overrides": {}
       },
       "a": {
           "color": "lightblue",
@@ -38,12 +40,14 @@
               "w>.": "5ww",
               "f>.": "5ww",
               ".>f": "5ww"
-          }
+          },
+          "overrides": {}
       },
       "l": {
           "color": "gray",
           "name": "Wall",
           "rule": "5",
-          "states": {}
+          "states": {},
+          "overrides": {}
       }
   }

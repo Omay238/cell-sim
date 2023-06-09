@@ -15,7 +15,7 @@ def main():
     clock = pygame.time.Clock()
 
     cell_read = {}
-    with open("./test.json") as cell_list:
+    with open("./cells.json") as cell_list:
         cell_read = json.load(cell_list)
 
     world_manager = WorldManager(cells, cells, cell_read, 0.1)
