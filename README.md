@@ -11,6 +11,7 @@ To create a cell, it is quite easy. To start, choose the features from the first
 ```
 > Cell creation grid  
 > This has been a useful tool in development, as it shows what to make the normal rule to get the type of cell you want. 
+
 ### Step 1
 The cell starts at `5`, and goes to whichever number the step dictates relative to it. It is recommended to only use the number 5 as a dampener for other possibilities, as it will have a negative effect on the performance.  
 Here's an example rule, for water: `8>79>46`. The arrows separate steps, where the first step is in the first segment, and the second in the second segment. For each step, a number is chosen randomly, and all options will be tried in that step before the program goes to the next step.
